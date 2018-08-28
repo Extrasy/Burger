@@ -1,4 +1,4 @@
-var connection = require("/connection.js");
+var connection = require("../config/connection");
 
 function printQuestionMarks(num) {
     var arr = [];
@@ -51,7 +51,7 @@ var orm  = {
         queryString += cols.toString();
         queryString += ") ";
         queryString += "VALUES (";
-        queryString += printQuestionMarks(vals.lenght);
+        queryString += printQuestionMarks(vals.length);
         queryString += ") ";
 
         console.log(queryString);
@@ -78,7 +78,20 @@ var orm  = {
             }
             cb(result);
         });
-    }
+    },
+    delete: function(table, condition, cb) {
+        var queryString = "DELETE FROM " + table;
+        queryString += " WHERE ";
+        queryString += condition;
+    
+        connection.query(queryString, function(err, result) {
+          if (err) {
+            throw err;
+          }
+    
+          cb(result);
+        });
+      }
 };
 
  // Export the orm for the model
